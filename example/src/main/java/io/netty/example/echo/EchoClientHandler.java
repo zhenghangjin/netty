@@ -19,6 +19,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.codec.LineBasedFrameDecoder;
+
+import java.nio.charset.Charset;
 
 /**
  * Handler implementation for the echo client.  It initiates the ping-pong
@@ -33,25 +36,28 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
      * Creates a client-side handler.
      */
     public EchoClientHandler() {
-        firstMessage = Unpooled.buffer(EchoClient.SIZE);
-        for (int i = 0; i < firstMessage.capacity(); i ++) {
-            firstMessage.writeByte((byte) i);
-        }
+        firstMessage = Unpooled.copiedBuffer("你好", Charset.defaultCharset());
+
+//        firstMessage = Unpooled.buffer(EchoClient.SIZE);
+//        for (int i = 0; i < firstMessage.capacity(); i ++) {
+//            firstMessage.writeByte((byte) i);
+//        }
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
+        System.out.println("写过去");
         ctx.writeAndFlush(firstMessage);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ctx.write(msg);
+//        ctx.write(msg);
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
-       ctx.flush();
+//       ctx.flush();
     }
 
     @Override

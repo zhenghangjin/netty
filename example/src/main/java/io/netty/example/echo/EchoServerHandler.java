@@ -22,6 +22,8 @@ import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
+import java.nio.charset.Charset;
+
 /**
  * Handler implementation for the echo server.
  */
@@ -30,40 +32,22 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        if ("fuck".equals(msg)) {
-            ctx.channel().close().addListener(new ChannelFutureListener() { // 我是一个萌萌哒监听器
-                @Override
-                public void operationComplete(ChannelFuture future) throws Exception {
-                    System.out.println(Thread.currentThread() + "我会被唤醒");
-                }
-            });
-            return;
-        }
-        if (false) {
-//            ctx.channel().close().addListener(new ChannelFutureListener() {
-//                @Override
-//                public void operationComplete(ChannelFuture future) throws Exception {
-//                    System.out.println(Thread.currentThread());
-//                }
-//            });
-            ctx.channel().disconnect().addListener(new ChannelFutureListener() {
-                @Override
-                public void operationComplete(ChannelFuture future) throws Exception {
-                    System.out.println(Thread.currentThread());
-                }
-            });
-            return;
-        }
 
         if (true) { // 调试打印
-            ByteBuf buf = (ByteBuf) msg;
-            int readerIndex = buf.readerIndex();
+                ByteBuf buf = (ByteBuf) msg;
+//            buf.
+//            int readerIndex = buf.readerIndex();
+//
+//            byte[] bytes = new byte[buf.readableBytes()];
+//            buf.readBytes(bytes);
+//            System.out.println("接收到消息：" + new String(bytes));
+//
+//            buf.readerIndex(readerIndex);
 
             byte[] bytes = new byte[buf.readableBytes()];
-            buf.readBytes(bytes);
-            System.out.println("接收到消息：" + new String(bytes));
-
-            buf.readerIndex(readerIndex);
+            buf.getBytes(buf.readerIndex(), bytes);
+            String str = new String(bytes, 0, buf.readableBytes(), Charset.defaultCharset());
+            System.out.println("接收道" + str);
         }
 
         ctx.write(msg).addListener(new ChannelFutureListener() {

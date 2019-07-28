@@ -41,13 +41,13 @@ public final class EchoClient {
     public static void main(String[] args) throws Exception {
         // Configure SSL.git
         // 配置 SSL
-        final SslContext sslCtx;
-        if (SSL) {
-            sslCtx = SslContextBuilder.forClient()
-                .trustManager(InsecureTrustManagerFactory.INSTANCE).build();
-        } else {
-            sslCtx = null;
-        }
+//        final SslContext sslCtx;
+//        if (SSL) {
+//            sslCtx = SslContextBuilder.forClient()
+//                .trustManager(InsecureTrustManagerFactory.INSTANCE).build();
+//        } else {
+//            sslCtx = null;
+//        }
 
         // Configure the client.
         // 创建一个 EventLoopGroup 对象
@@ -62,9 +62,9 @@ public final class EchoClient {
                  @Override
                  public void initChannel(SocketChannel ch) throws Exception {
                      ChannelPipeline p = ch.pipeline();
-                     if (sslCtx != null) {
-                         p.addLast(sslCtx.newHandler(ch.alloc(), HOST, PORT));
-                     }
+//                     if (sslCtx != null) {
+//                         p.addLast(sslCtx.newHandler(ch.alloc(), HOST, PORT));
+//                     }
                      //p.addLast(new LoggingHandler(LogLevel.INFO));
                      p.addLast(new EchoClientHandler());
                  }

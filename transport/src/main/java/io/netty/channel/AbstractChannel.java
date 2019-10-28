@@ -554,7 +554,7 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
                 boolean firstRegistration = neverRegistered;
 
                 // 执行注册逻辑
-                doRegister();
+                doRegister(); // ZHJ 比较简单，实现 jdk channel 和 eventLoop selector 进行注册
 
                 // 标记首次注册为 false
                 neverRegistered = false;
